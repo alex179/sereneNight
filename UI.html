@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>静夜思 - App UI Mockups</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #f6f6f6;
+            padding: 20px;
+            font-family: sans-serif;
+        }
+        .iframe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            justify-items: center; /* Center items in grid cells */
+        }
+        .iframe-container {
+            width: 400px; /* Fixed width for iframe container */
+            height: 850px; /* Fixed height for iframe container */
+            background-color: #f6f6f6; /* Match body background */
+            padding: 0; /* No padding for the container itself */
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none; /* Remove iframe default border */
+            background-color: #f6f6f6; /* Ensure iframe bg matches */
+        }
+        h1 {
+            text-align: center;
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="iframe-grid">
+        <div class="iframe-container">
+            <iframe src="splash_screen.html" title="Splash Screen"></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe src="home_screen.html" title="Home Screen"></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe src="playback_screen.html" title="Playback Screen"></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe src="favorites_screen.html" title="Favorites Screen"></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe src="profile_screen.html" title="Profile Screen"></iframe>
+        </div>
+    </div>
+
+</body>
+</html>

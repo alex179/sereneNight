@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Splash Screen - 静夜思</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            overflow: hidden; /* Hide scrollbars */
+            font-family: 'Nunito Sans', sans-serif; /* As per design doc, or a similar sans-serif */
+        }
+        .mockup-frame {
+            width: 375px;
+            height: 812px;
+            border: 16px solid black;
+            border-radius: 36px;
+            box-shadow: 0 0 24px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden; /* To clip the content to the frame's bounds */
+            background: linear-gradient(to bottom, #2A2D43, #1C1E2D); /* Background gradient */
+        }
+        .status-bar {
+            height: 44px; /* Typical iOS status bar height */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: #F5F5F5; /* Moonlight White */
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            background-color: transparent; /* Consistent with title bar - for splash, it's part of the gradient */
+        }
+        .status-bar .time {
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .status-bar .signals img {
+            height: 12px;
+        }
+        .screen-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #F5F5F5; /* Moonlight White */
+            padding-top: 44px; /* Account for status bar */
+            box-sizing: border-box;
+        }
+        .logo svg {
+            width: 80px; /* Adjust size as needed */
+            height: 80px;
+            margin-bottom: 24px;
+        }
+        .app-name {
+            font-size: 28px; /* Adjust as needed */
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .slogan {
+            font-size: 16px; /* Adjust as needed */
+            color: #E6E6FA; /* Light Lavender for slogan or slightly dimmer white */
+        }
+         /* Optional loading indicator style - a simple rotating ring */
+        .loader {
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #E6E6FA; /* Light Lavender */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+            margin-top: 30px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <!-- Using Google Fonts for Nunito Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-200 flex justify-center items-center min-h-screen">
+
+    <div class="mockup-frame">
+        <div class="status-bar">
+            <span class="time">9:41</span>
+            <div class="signals flex items-center space-x-1">
+                <!-- Using simple inline SVGs for signal, wifi, battery for now. Heroicons or similar could be used. -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.054A.5.5 0 017.5 15.5V12a.5.5 0 01.5-.5h8a.5.5 0 01.5.5v3.5a.5.5 0 01-.611.446l-3.89-1.945a.5.5 0 00-.468 0l-3.93 1.95zM12 12V9" /></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636a9 9 0 010 12.728M12 21V10.5M5.636 5.636a9 9 0 000 12.728" /></svg>
+                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5L7.03 9.754l-.001.004-.002.003-.005.007a1 1 0 00.874 1.482h4.992l.005-.007.002-.003.001-.004a1 1 0 00-.874-1.482A29.027 29.027 0 0010 7z" clip-rule="evenodd" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="screen-content">
+            <div class="logo">
+                <!-- Placeholder SVG Logo: Crescent moon and star -->
+                <svg viewBox="0 0 100 100" fill="#F5F5F5" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 0 A50 50 0 0 0 50 100 A40 40 0 0 1 50 20 A50 50 0 0 0 50 0 Z"/>
+                    <polygon points="65,35 68,45 78,45 70,52 73,62 65,55 57,62 60,52 52,45 62,45" />
+                </svg>
+            </div>
+            <div class="app-name">静夜思</div>
+            <div class="slogan">一夜好眠，静待晨曦</div>
+            <!-- Optional Loader -->
+            <div class="loader"></div>
+        </div>
+    </div>
+
+</body>
+</html>
