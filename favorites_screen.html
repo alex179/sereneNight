@@ -5,124 +5,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Favorites - 静夜思</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared_styles.css">
     <style>
-        body {
-            overflow: hidden;
-            font-family: 'Nunito Sans', sans-serif;
-        }
-        .mockup-frame {
-            width: 375px;
-            height: 812px;
-            border: 16px solid black;
-            border-radius: 36px;
-            box-shadow: 0 0 24px rgba(0,0,0,0.3);
-            position: relative;
-            overflow: hidden;
-            background-color: #1C1E2D; /* Base dark background */
-        }
-        .status-bar {
-            height: 44px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            color: #F5F5F5;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 20;
-            background-color: #2A2D43; /* Top of gradient for status/title bar area */
-        }
-        .status-bar .time { font-size: 15px; font-weight: 600; }
-        .status-bar .signals svg { height: 12px; width: 12px; }
-
-        .app-screen {
-            width: 100%;
-            height: 100%;
-            overflow-y: auto;
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
-            background: linear-gradient(to bottom, #2A2D43, #1C1E2D);
-            color: #F5F5F5;
-            padding-top: 44px; /* Status bar */
-            padding-bottom: 83px; /* Bottom nav */
-            box-sizing: border-box;
-        }
-        .app-screen::-webkit-scrollbar { display: none; /* Safari and Chrome */ }
-
+        /* Page-specific styles for Favorites Screen */
         .title-bar {
             height: 56px;
             display: flex;
-            justify-content: center; /* Center title */
+            justify-content: center;
             align-items: center;
             padding: 0 20px;
-            /* background-color: #2A2D43; /* Matches status bar bg */
-            color: #F5F5F5;
+            color: #F5F5F5; /* Moonlight White */
         }
-        .title-bar .page-title { font-size: 20px; font-weight: 600; }
+        .title-bar .page-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
 
-        .favorites-list { padding: 16px 20px; }
-        .favorite-item {
+        .favorites-list {
+            padding: 16px 20px;
+        }
+        /* .favorite-item uses .content-card styling with modifications if needed, or new styles */
+        .favorite-item { /* Adapting .content-card or creating new specific style */
             display: flex;
             align-items: center;
-            background-color: #2A2D43; /* Card background */
+            background-color: rgba(42, 45, 67, 0.8);
             border-radius: 12px;
             padding: 12px;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            margin-bottom: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+            cursor: pointer;
+        }
+        .favorite-item:hover {
+            background-color: rgba(52, 55, 77, 0.9);
         }
         .favorite-item img {
-            width: 60px;
-            height: 60px;
+            width: 64px;
+            height: 64px;
             border-radius: 8px;
             object-fit: cover;
             margin-right: 16px;
         }
-        .item-info { flex-grow: 1; }
-        .item-title { font-size: 16px; font-weight: 600; color: #F5F5F5; margin-bottom: 4px; }
-        .item-category { font-size: 12px; color: #E6E6FA; } /* Light Lavender */
-        .item-duration { font-size: 12px; color: #E6E6FA; }
+        .item-info {
+            flex-grow: 1;
+            overflow: hidden;
+        }
+        .item-title { /* Consistent with card-title from shared_styles.css or specific */
+            font-size: 17px;
+            font-weight: 600;
+            color: #F5F5F5;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .item-category, .item-duration { /* Consistent with card-desc or specific */
+            font-size: 13px;
+            color: #E6E6FA;
+            line-height: 1.4;
+        }
+        .item-category { margin-bottom: 2px; }
+
+        .play-action-icon {
+            width: 28px;
+            height: 28px;
+            color: #E6E6FA;
+            margin-left: 12px;
+        }
+        .play-action-icon:hover {
+            color: #F5F5F5;
+        }
 
         .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #E6E6FA; /* Light Lavender */
-        }
-        .empty-state .icon {
-            width: 60px; height: 60px; margin: 0 auto 20px auto; color: #F5F5F5;
-        }
-        .empty-state p { font-size: 16px; }
-
-
-        .bottom-nav {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 83px;
-            background-color: white;
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-start;
-            padding-top: 10px;
-            border-top: 1px solid #E5E7EB;
-            z-index: 20;
-        }
-        .nav-item {
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
-            text-decoration: none;
-            color: #A0AEC0;
-            font-size: 10px;
+            /* height: calc(100% - 56px); /* Takes available space if #favorites-content is flex-grow */
+            flex-grow: 1; /* Make empty state take available space */
+            text-align: center;
+            padding: 40px 20px;
+            color: #E6E6FA;
         }
-        .nav-item .icon { width: 24px; height: 24px; margin-bottom: 4px; }
-        .nav-item.active { color: #2A2D43; }
-        .nav-item.active .icon { color: #2A2D43; }
-
+        .empty-state .icon {
+            width: 72px;
+            height: 72px;
+            margin-bottom: 24px;
+            color: #F5F5F5;
+            opacity: 0.8;
+        }
+        .empty-state p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .empty-state .discover-link {
+            margin-top: 16px;
+            color: #F5F5F5;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+         /* Status bar specific for this page if needed (e.g., background) */
+        .status-bar {
+            background-color: #2A2D43; /* Matches top of gradient */
+        }
     </style>
+    <!-- Google Fonts is in shared_styles.css -->
 </head>
 <body class="bg-gray-200 flex justify-center items-center min-h-screen">
 
@@ -141,77 +127,125 @@
                 <h1 class="page-title">我的收藏</h1>
             </div>
 
-            <!-- Favorites List -->
-            <div class="favorites-list">
-                <!-- Favorite Item 1 -->
-                <div class="favorite-item">
-                    <img src="https://source.unsplash.com/random/120x120?moon,stars" alt="Favorite Item 1">
-                    <div class="item-info">
-                        <h3 class="item-title">星空下的冥想</h3>
-                        <p class="item-category">冥想练习</p>
-                        <p class="item-duration">15分钟</p>
-                    </div>
-                    <!-- Heroicon: play-circle (solid) as an action -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 hover:text-white" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8.188v3.624a1 1 0 001.555.832l3.197-1.812a1 1 0 000-1.664L9.555 7.168z" clip-rule="evenodd" />
-                    </svg>
-                </div>
-                <!-- Favorite Item 2 -->
-                <div class="favorite-item">
-                    <img src="https://source.unsplash.com/random/120x121?fantasy,forest" alt="Favorite Item 2">
-                    <div class="item-info">
-                        <h3 class="item-title">森林的耳语</h3>
-                        <p class="item-category">睡眠故事</p>
-                        <p class="item-duration">30分钟</p>
-                    </div>
-                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 hover:text-white" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8.188v3.624a1 1 0 001.555.832l3.197-1.812a1 1 0 000-1.664L9.555 7.168z" clip-rule="evenodd" />
-                    </svg>
-                </div>
-
-                <!-- Empty State (Uncomment to test) -->
-                <!--
-                <div class="empty-state">
-                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                    </svg>
-                    <p>你还没有收藏任何内容哦，</p>
-                    <p>去发现页看看吧~</p>
-                </div>
-                -->
+            <!-- Favorites List or Empty State -->
+            <div id="favorites-content" class="flex-grow"> <!-- flex-grow to help empty state centering -->
+                <!-- This div will be populated by JavaScript -->
             </div>
+
 
         </div> <!-- End App Screen -->
 
         <div class="bottom-nav">
-            <a href="#" class="nav-item">
-                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /> <!-- Using a generic home icon for Discover -->
+            <!-- Discover -->
+            <a href="home_screen.html" class="nav-item icon-discover"> <!-- Link to home_screen.html -->
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z" />
                 </svg>
                 <span>发现</span>
             </a>
-            <a href="#" class="nav-item active">
-                <!-- Heroicon: heart (solid) -->
+            <!-- My Favorites (Active) -->
+            <a href="favorites_screen.html" class="nav-item active icon-favorites"> <!-- Link to favorites_screen.html -->
                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
                 </svg>
                 <span>我的收藏</span>
             </a>
-            <a href="#" class="nav-item">
-                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <!-- Playing Queue -->
+            <a href="#" class="nav-item icon-queue"> <!-- Placeholder link -->
+                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
                 </svg>
                 <span>播放队列</span>
             </a>
-            <a href="#" class="nav-item">
-                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <!-- Profile/Me -->
+            <a href="profile_screen.html" class="nav-item icon-profile"> <!-- Link to profile_screen.html -->
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                 </svg>
                 <span>个人中心</span>
             </a>
         </div>
     </div>
 
-</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const favoritesContent = document.getElementById('favorites-content');
+
+        // Simulate fetching favorite items
+        const favoriteItems = [
+            {
+                id: 1,
+                title: "星空下的冥想",
+                category: "冥想练习",
+                duration: "15分钟",
+                imageUrl: "https://source.unsplash.com/random/128x128?moon,stars,calm"
+            },
+            {
+                id: 2,
+                title: "森林的耳语 - 一个非常非常长的标题用来测试省略号的效果看看怎么样",
+                category: "睡眠故事",
+                duration: "30分钟",
+                imageUrl: "https://source.unsplash.com/random/128x129?fantasy,forest,dream"
+            },
+             {
+                id: 3,
+                title: "海浪轻抚沙滩",
+                category: "自然之声",
+                duration: "60分钟",
+                imageUrl: "https://source.unsplash.com/random/128x130?ocean,waves,beach"
+            }
+            // To test empty state, make this array empty:
+            // const favoriteItems = [];
+        ];
+
+        if (favoriteItems.length === 0) {
+            // Display empty state
+            favoritesContent.innerHTML = `
+                <div class="empty-state">
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                    </svg>
+                    <p>你还没有收藏任何内容哦。</p>
+                    <p><a href="home_screen.html" class="discover-link">去发现页看看吧~</a></p> <!-- Link to home_screen.html -->
+                </div>
+            `;
+        } else {
+            // Display list of favorite items
+            const listElement = document.createElement('div');
+            listElement.className = 'favorites-list';
+
+            favoriteItems.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'favorite-item';
+                itemElement.setAttribute('role', 'button');
+                itemElement.setAttribute('tabindex', '0');
+                itemElement.setAttribute('aria-label', `播放 ${item.title}`);
+                itemElement.innerHTML = `
+                    <img src="${item.imageUrl}" alt="">
+                    <div class="item-info">
+                        <h3 class="item-title">${item.title}</h3>
+                        <p class="item-category">${item.category}</p>
+                        <p class="item-duration">${item.duration}</p>
+                    </div>
+                    <svg class="play-action-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8.188v3.624a1 1 0 001.555.832l3.197-1.812a1 1 0 000-1.664L9.555 7.168z" clip-rule="evenodd" />
+                    </svg>
+                `;
+                itemElement.addEventListener('click', () => {
+                    // Navigate to playback screen or initiate playback
+                    console.log(`Play item: ${item.title}`);
+                    // window.location.href = `playback_screen.html?id=${item.id}`; // Example navigation
+                });
+                itemElement.addEventListener('keypress', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        itemElement.click();
+                    }
+                });
+                listElement.appendChild(itemElement);
+            });
+            favoritesContent.appendChild(listElement);
+        }
+    });
+</script>
+</html>
 </html>

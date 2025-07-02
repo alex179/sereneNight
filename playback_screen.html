@@ -5,51 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Playback Screen - 静夜思</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared_styles.css">
     <style>
-        body {
-            overflow: hidden;
-            font-family: 'Nunito Sans', sans-serif;
-        }
-        .mockup-frame {
-            width: 375px;
-            height: 812px;
-            border: 16px solid black;
-            border-radius: 36px;
-            box-shadow: 0 0 24px rgba(0,0,0,0.3);
-            position: relative;
-            overflow: hidden;
-            background-color: #1C1E2D; /* Base dark background */
-        }
-        .status-bar {
-            height: 44px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            color: #F5F5F5;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 20;
-            /* Background transparent to blend with top-nav or main content bg */
-            background-color: transparent;
-        }
-        .status-bar .time { font-size: 15px; font-weight: 600; }
-        .status-bar .signals svg { height: 12px; width: 12px; }
-
+        /* Page-specific styles for Playback Screen */
         .app-screen {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            /* background: linear-gradient(to bottom, #2A2D43, #1C1E2D); */
-            color: #F5F5F5;
-            box-sizing: border-box;
+            /* Playback screen usually has no bottom nav bar, so padding-bottom might be less or different */
+            padding-bottom: 0; /* Remove default app-screen bottom padding */
         }
 
         .top-nav-playback {
+            /* Styles from previous step, ensure they are compatible with shared_styles.css */
+            /* Or move relevant parts to shared_styles.css if they become generic enough */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -59,70 +25,87 @@
             top: 44px; /* Below status bar */
             left: 0;
             right: 0;
-            z-index: 10;
-            background-color: transparent; /* Should blend with main visual */
+            z-index: 20;
+            background-color: transparent;
         }
-        .top-nav-playback .icon { width: 24px; height: 24px; color: #F5F5F5; cursor: pointer; }
-        .top-nav-playback .title { font-size: 18px; font-weight: 600; color: #F5F5F5; }
+        .top-nav-playback .icon {
+            width: 28px;
+            height: 28px;
+            color: #F5F5F5;
+            cursor: pointer;
+        }
+        .top-nav-playback .title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #F5F5F5;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
 
         .main-visual-area {
             flex-grow: 1;
             background-size: cover;
             background-position: center;
+            position: relative;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end; /* Align controls to bottom of this area if not fixed */
-            position: relative; /* For absolute positioning of overlay if needed */
+            background: linear-gradient(to bottom, #2A2D43, #1C1E2D); /* Fallback gradient */
         }
-        .main-visual-area::before { /* Optional overlay for text readability */
+        .main-visual-area::before {
             content: "";
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.3); /* Dark overlay */
+            background: rgba(0,0,0,0.35);
             z-index: 1;
         }
 
         .controls-area {
-            padding: 20px;
-            padding-bottom: 34px; /* Extra padding for home bar area */
-            background-color: rgba(28, 30, 45, 0.8); /* #1C1E2D with some transparency or solid */
-            backdrop-filter: blur(10px); /* Frosted glass effect */
-            z-index: 5; /* Above main visual, below top nav if overlapping */
+            padding: 20px 20px 34px 20px; /* 34px for home indicator area */
+            background-color: rgba(28, 30, 45, 0.85); /* #1C1E2D with opacity */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 10;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
         }
 
-        .progress-bar-container { margin-bottom: 12px; }
+        .progress-bar-container { margin-bottom: 10px; }
         .progress-bar {
             width: 100%;
-            height: 4px;
-            background-color: rgba(245, 245, 245, 0.3); /* Moonlight white with opacity */
-            border-radius: 2px;
+            height: 5px;
+            background-color: rgba(245, 245, 245, 0.25);
+            border-radius: 2.5px;
             overflow: hidden;
+            cursor: pointer;
         }
         .progress {
-            width: 30%; /* Example progress */
             height: 100%;
             background-color: #E6E6FA; /* Light Lavender */
-            border-radius: 2px;
+            border-radius: 2.5px;
         }
         .time-display {
             display: flex;
             justify-content: space-between;
-            font-size: 12px;
+            font-size: 13px;
             color: #E6E6FA; /* Light Lavender */
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         .playback-buttons {
             display: flex;
             justify-content: space-around;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
-        .playback-buttons .icon {
-            width: 28px; height: 28px; color: #F5F5F5; cursor: pointer;
+        .playback-buttons .icon { /* For skip buttons */
+            width: 32px;
+            height: 32px;
+            color: #F5F5F5;
+            cursor: pointer;
         }
-        .playback-buttons .play-pause-btn .icon {
-            width: 56px; height: 56px;
+        .playback-buttons .play-pause-btn .icon { /* For main play/pause button */
+            width: 64px;
+            height: 64px;
+            color: #F5F5F5;
         }
 
         .aux-buttons {
@@ -131,11 +114,20 @@
             align-items: center;
         }
          .aux-buttons .icon {
-            width: 24px; height: 24px; color: #F5F5F5; cursor: pointer;
+            width: 26px;
+            height: 26px;
+            color: #F5F5F5;
+            cursor: pointer;
+            opacity: 0.85;
         }
-
-
+        .aux-buttons .icon:hover {
+            opacity: 1;
+        }
+        .status-bar { /* Ensure status bar is transparent for playback screen */
+            background-color: transparent;
+        }
     </style>
+    <!-- Google Fonts is in shared_styles.css -->
 </head>
 <body class="bg-gray-200 flex justify-center items-center min-h-screen">
 
@@ -153,68 +145,72 @@
         <div class="app-screen">
             <!-- Top Navigation -->
             <div class="top-nav-playback">
-                <!-- Heroicon: arrow-left -->
-                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                <!-- Back Arrow Icon -->
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                 </svg>
                 <span class="title">月光下的传说</span>
-                <div class="flex space-x-4">
-                    <!-- Heroicon: heart (outline) -->
-                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                <div class="flex space-x-5"> <!-- Increased spacing for icons -->
+                    <!-- Favorite Icon (Heart, outline or solid based on state) -->
+                    <svg class="icon" id="favorite-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
                     </svg>
-                    <!-- Heroicon: download (outline) - Optional -->
-                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    <!-- Download Icon (Optional) -->
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
                     </svg>
                 </div>
             </div>
 
             <!-- Main Visual Area -->
-            <div class="main-visual-area" style="background-image: url('https://source.unsplash.com/random/375x812?night,sky,moon');">
-                <!-- Content is primarily the background, text/controls are overlaid or below -->
+            <!-- Background image is applied here, with a ::before pseudo-element for overlay -->
+            <div class="main-visual-area" style="background-image: url('https://source.unsplash.com/random/400x850?night,sky,moon');">
+                <!-- Content is primarily the background. The ::before pseudo-element creates the dark overlay. -->
             </div>
 
             <!-- Controls Area -->
             <div class="controls-area">
                 <div class="progress-bar-container">
-                    <div class="progress-bar"><div class="progress"></div></div>
+                    <div class="progress-bar"><div class="progress" style="width: 45%;"></div></div> <!-- Example progress -->
                 </div>
                 <div class="time-display">
-                    <span>10:35</span>
-                    <span>25:00</span>
+                    <span>10:35</span> <!-- Current time -->
+                    <span>25:00</span> <!-- Total time -->
                 </div>
                 <div class="playback-buttons">
-                    <!-- Heroicon: rewind (solid) - Optional -->
+                    <!-- Skip Previous Icon (Optional) -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M8.445 14.832A1 1 0 0010 14.135V5.865a1 1 0 00-1.555-.832L2.445 9.168a1 1 0 000 1.664l6 4.000zM11.555 5.168A1 1 0 0010 5.865v8.27a1 1 0 001.555.832l6-4a1 1 0 000-1.664l-6-4z" clip-rule="evenodd" />
                     </svg>
 
-                    <!-- Heroicon: play (solid) -->
-                    <span class="play-pause-btn">
-                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8.188v3.624a1 1 0 001.555.832l3.197-1.812a1 1 0 000-1.664L9.555 7.168z" clip-rule="evenodd" />
+                    <!-- Play/Pause Button -->
+            <span class="play-pause-btn" id="play-pause-button" role="button" aria-label="Play/Pause">
+                        <!-- Play Icon (Solid) -->
+                <svg class="icon icon-play" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="false">
+                            <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm14.024-.983a1.125 1.125 0 010 1.966l-5.603 3.113A1.125 1.125 0 019 15.113V8.887c0-.857.921-1.4 1.671-.983l5.603 3.113z" clip-rule="evenodd" />
                         </svg>
-                        <!-- Paused state:
-                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 001 1h1a1 1 0 001-1V8a1 1 0 00-1-1H8zm3 0a1 1 0 00-1 1v4a1 1 0 001 1h1a1 1 0 001-1V8a1 1 0 00-1-1h-1z" clip-rule="evenodd" />
-                        </svg> -->
+                        <!-- Pause Icon (Solid) - Initially hidden -->
+                <svg class="icon icon-pause hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zM9 8.25a.75.75 0 00-.75.75v6c0 .414.336.75.75.75h.75a.75.75 0 00.75-.75V9a.75.75 0 00-.75-.75H9zm5.25 0a.75.75 0 00-.75.75v6c0 .414.336.75.75.75H15a.75.75 0 00.75-.75V9a.75.75 0 00-.75-.75h-.75z" clip-rule="evenodd" />
+                        </svg>
                     </span>
 
-                    <!-- Heroicon: fast-forward (solid) - Optional -->
-                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                         <path fill-rule="evenodd" d="M10 14.135V5.865a1 1 0 011.555-.832l6 4a1 1 0 010 1.664l-6 4A1 1 0 0110 14.135zM2.445 9.168A1 1 0 014 8.336V5.865a1 1 0 00-1.555-.832l-6 4a1 1 0 000 1.664l6 3.999A1 1 0 004 14.135V11.664a1 1 0 01-1.555-.832L2.445 9.168z" clip-rule="evenodd" transform="translate(1.555, 0)"/>
+                    <!-- Skip Next Icon (Optional) -->
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" role="button" aria-label="Next track">
+                         <path fill-rule="evenodd" d="M10 14.135V5.865a1 1 0 011.555-.832l6 4a1 1 0 010 1.664l-6 4A1 1 0 0110 14.135zM2.445 9.168A1 1 0 014 8.336V5.865a1 1 0 00-1.555-.832l-6 4a1 1 0 000 1.664l6 3.999A1 1 0 004 14.135V11.664a1 1 0 01-1.555-.832L2.445 9.168z" clip-rule="evenodd" transform="matrix(-1 0 0 1 18.445 0)"/> <!-- Mirrored for skip next -->
                     </svg>
                 </div>
                 <div class="aux-buttons">
-                    <!-- Heroicon: clock (outline) for Sleep Timer -->
-                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <!-- Sleep Timer Icon (Clock) -->
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" role="button" aria-label="Sleep Timer">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <!-- Placeholder for other buttons like shuffle/loop if needed -->
-                    <span class="w-6 h-6"></span> <!-- Spacer -->
-                    <!-- Heroicon: queue-list (outline) or similar for playlist -->
-                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <!-- Loop/Shuffle Icon (Example: Loop) -->
+             <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" role="button" aria-label="Loop">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                    </svg>
+                    <!-- Playlist/Queue Icon -->
+             <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" role="button" aria-label="View Queue">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
                     </svg>
                 </div>

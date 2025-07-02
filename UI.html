@@ -5,54 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>静夜思 - App UI Mockups</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="shared_styles.css"> <!-- Link the shared CSS -->
     <style>
-        body {
-            background-color: #f6f6f6;
-            padding: 20px;
-            font-family: sans-serif;
+        /* Styles specific to UI.html itself, not the iframed content */
+        body.ui-html-body-container { /* Use the class defined in shared_styles.css */
+            font-family: 'Nunito Sans', sans-serif; /* Consistent font */
+            /* background-color and padding are handled by .ui-html-body-container in shared_styles.css */
         }
-        .iframe-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 20px;
-            justify-items: center; /* Center items in grid cells */
-        }
-        .iframe-container {
-            width: 400px; /* Fixed width for iframe container */
-            height: 850px; /* Fixed height for iframe container */
-            background-color: #f6f6f6; /* Match body background */
-            padding: 0; /* No padding for the container itself */
-        }
-        iframe {
+        .app-title-header {
             width: 100%;
-            height: 100%;
-            border: none; /* Remove iframe default border */
-            background-color: #f6f6f6; /* Ensure iframe bg matches */
-        }
-        h1 {
             text-align: center;
-            font-size: 2em;
-            color: #333;
-            margin-bottom: 30px;
+            font-size: 2.5em; /* Larger title */
+            color: #2A2D43; /* Main dark color */
+            margin-bottom: 40px; /* More space */
+            font-weight: 700;
+        }
+        .grid-container { /* Replaces iframe-grid for better semantics */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(375px, 1fr)); /* Base on mockup width */
+            gap: 30px; /* Increased gap */
+            justify-items: center;
+            align-items: start; /* Align items to the start of the grid cell */
+            padding: 0 20px; /* Add some horizontal padding to the grid */
+        }
+        .mockup-wrapper { /* Replaces iframe-container */
+            /* The .mockup-frame class from shared_styles.css will provide the phone border */
+            /* width and height will be determined by .mockup-frame */
+        }
+        .mockup-wrapper h2 { /* Styling for screen titles */
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            color: #1C1E2D; /* Deeper blue-purple */
+            font-weight: 600;
+        }
+        .mockup-wrapper iframe {
+            width: 375px; /* Fixed width of the content area */
+            height: 812px; /* Fixed height of the content area */
+            border: none;
+            /* The mockup-frame class itself handles the visual border and rounded corners */
         }
     </style>
 </head>
-<body>
+<body class="ui-html-body-container">
 
-    <div class="iframe-grid">
-        <div class="iframe-container">
+    <h1 class="app-title-header">静夜思 - App UI Mockups</h1>
+
+    <div class="grid-container">
+        <div class="mockup-wrapper">
+            <h2>Splash Screen</h2>
             <iframe src="splash_screen.html" title="Splash Screen"></iframe>
         </div>
-        <div class="iframe-container">
+        <div class="mockup-wrapper">
+            <h2>Home Screen</h2>
             <iframe src="home_screen.html" title="Home Screen"></iframe>
         </div>
-        <div class="iframe-container">
+        <div class="mockup-wrapper">
+            <h2>Playback Screen</h2>
             <iframe src="playback_screen.html" title="Playback Screen"></iframe>
         </div>
-        <div class="iframe-container">
+        <div class="mockup-wrapper">
+            <h2>Favorites Screen</h2>
             <iframe src="favorites_screen.html" title="Favorites Screen"></iframe>
         </div>
-        <div class="iframe-container">
+        <div class="mockup-wrapper">
+            <h2>Profile Screen</h2>
             <iframe src="profile_screen.html" title="Profile Screen"></iframe>
         </div>
     </div>

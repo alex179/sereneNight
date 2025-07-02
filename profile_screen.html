@@ -5,135 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - 静夜思</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared_styles.css">
     <style>
-        body {
-            overflow: hidden;
-            font-family: 'Nunito Sans', sans-serif;
-        }
-        .mockup-frame {
-            width: 375px;
-            height: 812px;
-            border: 16px solid black;
-            border-radius: 36px;
-            box-shadow: 0 0 24px rgba(0,0,0,0.3);
-            position: relative;
-            overflow: hidden;
-            background-color: #1C1E2D; /* Base dark background */
-        }
-        .status-bar {
-            height: 44px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            color: #F5F5F5;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 20;
-            background-color: #2A2D43; /* Matches top part of gradient/title bars */
-        }
-        .status-bar .time { font-size: 15px; font-weight: 600; }
-        .status-bar .signals svg { height: 12px; width: 12px; }
-
-        .app-screen {
-            width: 100%;
-            height: 100%;
-            overflow-y: auto;
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
-            background: linear-gradient(to bottom, #2A2D43, #1C1E2D);
-            color: #F5F5F5;
-            padding-top: 44px; /* Status bar */
-            padding-bottom: 83px; /* Bottom nav */
-            box-sizing: border-box;
-        }
-        .app-screen::-webkit-scrollbar { display: none; /* Safari and Chrome */ }
-
+        /* Page-specific styles for Profile Screen */
         .profile-header {
-            padding: 30px 20px;
+            padding: 24px 20px;
             text-align: center;
-            border-bottom: 1px solid rgba(245, 245, 245, 0.1); /* Subtle border */
         }
         .profile-avatar {
-            width: 80px;
-            height: 80px;
+            width: 88px;
+            height: 88px;
             border-radius: 50%;
             background-color: #E6E6FA; /* Light Lavender placeholder */
-            margin: 0 auto 12px auto;
+            margin: 0 auto 16px auto;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 30px;
-            color: #2A2D43;
+            font-size: 36px;
+            font-weight: 600;
+            color: #2A2D43; /* Dark Blue-Purple for initial text */
+            overflow: hidden;
         }
-        .profile-avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-        .profile-name { font-size: 20px; font-weight: 600; color: #F5F5F5; }
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .profile-name {
+            font-size: 22px;
+            font-weight: 600;
+            color: #F5F5F5; /* Moonlight White */
+        }
 
-        .settings-list { margin-top: 20px; }
-        .list-item {
-            display: flex;
-            align-items: center;
-            padding: 16px 20px;
-            color: #F5F5F5;
-            text-decoration: none;
-            border-bottom: 1px solid rgba(245, 245, 245, 0.05); /* Even more subtle border */
+        .settings-list {
+            margin-top: 24px;
+            background-color: rgba(42, 45, 67, 0.5); /* #2A2D43 with opacity */
+            margin-left: 16px;
+            margin-right: 16px;
+            border-radius: 12px;
+            overflow: hidden;
         }
-        .list-item:last-child { border-bottom: none; }
-        .list-item .icon {
-            width: 22px; height: 22px; margin-right: 16px; color: #E6E6FA; /* Light Lavender for icons */
-        }
-        .list-item span { flex-grow: 1; font-size: 16px; }
-        .list-item .chevron { width: 18px; height: 18px; color: #A0AEC0; /* Muted chevron */ }
+        /* .list-item is now .settings-list-item in shared_styles.css */
+        /* No need to redefine .settings-list-item here if it's identical to shared_styles.css */
 
         .logout-button-container {
-            padding: 30px 20px;
+            padding: 32px 20px;
         }
-        .logout-button {
+        .logout-button { /* Using .btn and .btn-secondary-outline from shared_styles.css */
             display: block;
             width: 100%;
-            padding: 12px;
-            text-align: center;
-            background-color: transparent;
-            border: 1px solid #E6E6FA; /* Light Lavender border */
-            color: #E6E6FA; /* Light Lavender text */
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
+            padding: 14px;
+            font-size: 17px;
+            /* Other styles like border, color, hover are from shared_styles.css */
         }
-        .logout-button:hover { background-color: rgba(230, 230, 250, 0.1); }
 
-
-        .bottom-nav {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 83px;
-            background-color: white;
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-start;
-            padding-top: 10px;
-            border-top: 1px solid #E5E7EB;
-            z-index: 20;
+        /* Status bar specific for this page if needed (e.g., background) */
+        .status-bar {
+            background-color: #2A2D43; /* Matches top of gradient */
         }
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: #A0AEC0;
-            font-size: 10px;
-        }
-        .nav-item .icon { width: 24px; height: 24px; margin-bottom: 4px; }
-        .nav-item.active { color: #2A2D43; }
-        .nav-item.active .icon { color: #2A2D43; }
-
     </style>
+    <!-- Google Fonts is in shared_styles.css -->
 </head>
 <body class="bg-gray-200 flex justify-center items-center min-h-screen">
 
@@ -150,71 +82,81 @@
         <div class="app-screen">
             <div class="profile-header">
                 <div class="profile-avatar">
-                    <!-- <img src="https://source.unsplash.com/random/80x80?profile,user" alt="User Avatar"> -->
-                    <span>U</span> <!-- Placeholder initial -->
+                     <img src="https://source.unsplash.com/random/88x88?profile,user,face" alt="User Avatar">
+                    <!-- <span>U</span> --> <!-- Placeholder if no image -->
                 </div>
-                <div class="profile-name">用户名</div>
+                <div class="profile-name">静思者</div> <!-- Example Username -->
             </div>
 
             <div class="settings-list">
-                <a href="#" class="list-item">
-                    <!-- Heroicon: arrow-down-tray -->
+                <a href="#" class="settings-list-item" role="button" aria-label="我的下载">
+                    <!-- My Downloads: arrow-down-tray -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
                     <span>我的下载</span>
-                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
                 </a>
-                <a href="#" class="list-item">
-                    <!-- Heroicon: clock-solid (or history) -->
-                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" /></svg>
+                <a href="#" class="settings-list-item" role="button" aria-label="收听历史">
+                    <!-- Listening History: clock (outline) or list-bullet -->
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /> </svg>
                     <span>收听历史</span>
-                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
                 </a>
-                <a href="#" class="list-item">
-                    <!-- Heroicon: adjustments-horizontal -->
-                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>
+                 <a href="#" class="settings-list-item" role="button" aria-label="睡眠定时器设置">
+                    <!-- Sleep Timer Settings: new icon - stopwatch or timer related -->
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" /> </svg>
+                    <span>睡眠定时器设置</span>
+                     <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                </a>
+                <a href="#" class="settings-list-item" role="button" aria-label="App设置">
+                    <!-- App Settings: cog-6-tooth or adjustments-horizontal -->
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.646.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.438.995s.145.755.438.995l1.003.827c.432.355.537.957.26 1.431l-1.296 2.247a1.125 1.125 0 01-1.37.49l-1.217-.456c-.355-.133-.75-.072-1.075.124a6.57 6.57 0 01-.22.127c-.333.184-.583.496-.646.87l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.646-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.37-.49l-1.296-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.437-.995s-.145-.755-.437-.995l-1.004-.827a1.125 1.125 0 01-.26-1.431l1.296-2.247a1.125 1.125 0 011.37-.49l1.217.456c.355.133.75.072 1.076-.124.072-.044.146-.087.22-.127.333-.184.582-.496.646-.87l.213-1.281z" /> <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /> </svg>
                     <span>App设置</span>
-                     <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                     <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
                 </a>
-                <a href="#" class="list-item">
-                    <!-- Heroicon: information-circle -->
+                <a href="#" class="settings-list-item" role="button" aria-label="关于我们">
+                    <!-- About Us: information-circle -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" /></svg>
                     <span>关于我们</span>
-                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
                 </a>
-                <a href="#" class="list-item">
-                    <!-- Heroicon: question-mark-circle -->
+                <a href="#" class="settings-list-item" role="button" aria-label="帮助与反馈">
+                    <!-- Help & Feedback: question-mark-circle -->
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" /></svg>
                     <span>帮助与反馈</span>
-                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
                 </a>
             </div>
 
             <div class="logout-button-container">
-                <button class="logout-button">退出登录</button>
+                <button class="logout-button btn btn-secondary-outline" role="button" aria-label="退出登录">退出登录</button>
             </div>
 
         </div> <!-- End App Screen -->
 
         <div class="bottom-nav">
-            <a href="#" class="nav-item">
-                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+             <!-- Discover -->
+            <a href="home_screen.html" class="nav-item icon-discover">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z" />
+                </svg>
                 <span>发现</span>
             </a>
-            <a href="#" class="nav-item">
-                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            <!-- My Favorites -->
+            <a href="favorites_screen.html" class="nav-item icon-favorites">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
                 </svg>
                 <span>我的收藏</span>
             </a>
-            <a href="#" class="nav-item">
-                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <!-- Playing Queue -->
+            <a href="#" class="nav-item icon-queue"> <!-- Placeholder Link -->
+                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
                 </svg>
                 <span>播放队列</span>
             </a>
-            <a href="#" class="nav-item active">
-                <!-- Heroicon: user-circle (solid) -->
+            <!-- Profile/Me (Active) -->
+            <a href="profile_screen.html" class="nav-item active icon-profile">
                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-5.5-2.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zM10 12a5.99 5.99 0 00-4.793 2.39A6.483 6.483 0 0010 16.5a6.483 6.483 0 004.793-2.11A5.99 5.99 0 0010 12z" clip-rule="evenodd" />
                 </svg>

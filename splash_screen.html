@@ -5,71 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Splash Screen - 静夜思</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="shared_styles.css">
     <style>
-        body {
-            overflow: hidden; /* Hide scrollbars */
-            font-family: 'Nunito Sans', sans-serif; /* As per design doc, or a similar sans-serif */
-        }
-        .mockup-frame {
-            width: 375px;
-            height: 812px;
-            border: 16px solid black;
-            border-radius: 36px;
-            box-shadow: 0 0 24px rgba(0,0,0,0.3);
-            position: relative;
-            overflow: hidden; /* To clip the content to the frame's bounds */
-            background: linear-gradient(to bottom, #2A2D43, #1C1E2D); /* Background gradient */
-        }
-        .status-bar {
-            height: 44px; /* Typical iOS status bar height */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            color: #F5F5F5; /* Moonlight White */
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 10;
-            background-color: transparent; /* Consistent with title bar - for splash, it's part of the gradient */
-        }
-        .status-bar .time {
-            font-size: 15px;
-            font-weight: 600;
-        }
-        .status-bar .signals img {
-            height: 12px;
-        }
-        .screen-content {
-            width: 100%;
-            height: 100%;
+        /* Page-specific styles for Splash Screen */
+        .screen-content { /* Overrides from shared_styles.css if needed, or adds specifics */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: #F5F5F5; /* Moonlight White */
-            padding-top: 44px; /* Account for status bar */
-            box-sizing: border-box;
+            text-align: center;
+            /* Inherits background gradient via .mockup-frame > .app-screen or directly on .mockup-frame */
         }
         .logo svg {
-            width: 80px; /* Adjust size as needed */
+            width: 80px;
             height: 80px;
             margin-bottom: 24px;
+            fill: #F5F5F5; /* Moonlight White */
         }
         .app-name {
-            font-size: 28px; /* Adjust as needed */
-            font-weight: 600;
+            font-size: 28px;
+            font-weight: 700;
             margin-bottom: 8px;
+            color: #F5F5F5; /* Moonlight White */
         }
         .slogan {
-            font-size: 16px; /* Adjust as needed */
-            color: #E6E6FA; /* Light Lavender for slogan or slightly dimmer white */
+            font-size: 16px;
+            color: #F5F5F5; /* Moonlight White, or #E6E6FA as per design options */
         }
-         /* Optional loading indicator style - a simple rotating ring */
         .loader {
-            border: 4px solid #f3f3f3; /* Light grey */
-            border-top: 4px solid #E6E6FA; /* Light Lavender */
+            border: 4px solid rgba(245, 245, 245, 0.3); /* Moonlight White with alpha for track */
+            border-top: 4px solid #F5F5F5; /* Moonlight White for spinner */
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -80,13 +45,21 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* Ensure mockup frame background is the splash gradient */
+        .mockup-frame.splash-bg { /* Added a specific class for splash if needed */
+             background: linear-gradient(to bottom, #2A2D43, #1C1E2D);
+        }
+        .status-bar { /* Ensure status bar is transparent for splash */
+            background-color: transparent;
+        }
+
     </style>
-    <!-- Using Google Fonts for Nunito Sans -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts already in shared_styles.css -->
 </head>
 <body class="bg-gray-200 flex justify-center items-center min-h-screen">
 
-    <div class="mockup-frame">
+    <div class="mockup-frame splash-bg"> <!-- Added splash-bg for clarity if needed -->
         <div class="status-bar">
             <span class="time">9:41</span>
             <div class="signals flex items-center space-x-1">

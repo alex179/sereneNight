@@ -1,0 +1,303 @@
+/*
+静夜思 (SereneNight) App - Shared CSS Styles
+Based on product_design_document.md
+*/
+
+/* --- Base and Typography --- */
+body {
+    font-family: 'Nunito Sans', sans-serif;
+    background-color: #1C1E2D; /* Fallback, actual page bg is often a gradient */
+    color: #F5F5F5; /* Moonlight White - Default text color */
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevent scroll on body for mockup */
+}
+
+/* Mockup frame and status bar (for previewing in UI.html) */
+.mockup-frame {
+    width: 375px;
+    height: 812px;
+    border: 16px solid black;
+    border-radius: 36px;
+    box-shadow: 0 0 24px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+    margin: 20px auto; /* Center mockup on a wider page */
+}
+
+.status-bar {
+    height: 44px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    color: #F5F5F5; /* Moonlight White */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Ensure status bar is on top */
+    /* Background set per page, often transparent or matching top of gradient */
+}
+.status-bar .time { font-size: 15px; font-weight: 600; }
+.status-bar .signals svg { height: 14px; width: 14px; fill: #F5F5F5; }
+
+/* App Screen Base */
+.app-screen {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    background: linear-gradient(to bottom, #2A2D43, #1C1E2D); /* Main App Gradient */
+    color: #F5F5F5; /* Moonlight White */
+    padding-top: 44px; /* Account for status bar */
+    padding-bottom: 83px; /* Account for bottom nav bar */
+    box-sizing: border-box;
+}
+.app-screen::-webkit-scrollbar { display: none; /* Safari and Chrome */ }
+
+/* --- Color Palette Variables (Conceptual - for reference, applied directly in Tailwind or here) --- */
+/*
+  --main-dark-blue-purple: #2A2D43;
+  --deeper-blue-purple: #1C1E2D;
+  --moonlight-white: #F5F5F5;
+  --light-lavender: #E6E6FA;
+*/
+
+/* --- Common UI Elements --- */
+
+/* Top Navigation (used on Home, can be adapted for others) */
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    height: 56px;
+    /* background-color is part of the app-screen gradient */
+}
+.top-nav .app-logo-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: #F5F5F5;
+}
+.top-nav .icon {
+    width: 24px;
+    height: 24px;
+    color: #F5F5F5;
+    cursor: pointer;
+}
+
+/* Content Cards (Home Screen, Favorites Screen adaptation) */
+.content-card { /* Used in horizontal scroll lists */
+    min-width: 160px;
+    margin-right: 16px;
+    border-radius: 12px; /* Design Doc: 8-16dp */
+    overflow: hidden;
+    background-color: rgba(42, 45, 67, 0.8); /* #2A2D43 with opacity or slightly lighter */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* Subtle shadow */
+    position: relative;
+    cursor: pointer;
+}
+.content-card:hover {
+    transform: translateY(-2px); /* Subtle lift */
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+}
+.content-card img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    display: block;
+}
+.card-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100px; /* Match image height */
+    background: rgba(0,0,0,0.25);
+    z-index: 1;
+    border-radius: 12px 12px 0 0; /* Match card's top radius if image is flush */
+}
+.card-info {
+    padding: 12px;
+    position: relative;
+    z-index: 2;
+}
+.card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #F5F5F5;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.card-desc {
+    font-size: 13px;
+    color: #E6E6FA; /* Light Lavender */
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Bottom Navigation Bar */
+.bottom-nav {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 83px;
+    background-color: #F5F5F5; /* Moonlight White background */
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding-top: 10px;
+    z-index: 100; /* Ensure nav is above scrolled content */
+    /* border-top: 1px solid #E0E0E0; /* Optional subtle border */
+}
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    font-size: 10px;
+    color: #A0A3AF; /* Unselected: Darker Moonlight White or Light Lavender (#E6E6FA) */
+    padding: 0 5px; /* Some horizontal padding for items */
+    flex: 1; /* Distribute space evenly */
+    text-align: center;
+}
+.nav-item .icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 4px;
+}
+.nav-item.active {
+    color: #2A2D43; /* Active: Main Dark Blue-Purple (for text on light nav bg) */
+}
+.nav-item.active .icon {
+     color: #2A2D43; /* Active icon color matches text */
+}
+
+/* Buttons (General Styling - can be extended with specific classes) */
+.btn {
+    padding: 10px 15px;
+    border-radius: 8px; /* Default rounded corners */
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    text-align: center;
+    display: inline-block;
+}
+
+.btn-primary { /* Example primary button */
+    background-color: #E6E6FA; /* Light Lavender */
+    color: #2A2D43; /* Dark Blue-Purple text */
+    border: none;
+}
+.btn-primary:hover {
+    background-color: #DCD0FF; /* Slightly darker/more saturated lavender */
+}
+
+.btn-secondary-outline { /* Example for logout button */
+    background-color: transparent;
+    border: 1.5px solid #E6E6FA; /* Light Lavender border */
+    color: #E6E6FA; /* Light Lavender text */
+}
+.btn-secondary-outline:hover {
+    background-color: #E6E6FA;
+    color: #2A2D43;
+}
+
+/* Specific Page Element Styling (if broadly reusable beyond one page) */
+
+/* For list items like in Profile or potential future lists */
+.settings-list-item { /* Renamed from .list-item to be more specific */
+    display: flex;
+    align-items: center;
+    padding: 18px 20px;
+    color: #F5F5F5;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(245, 245, 245, 0.1);
+    transition: background-color 0.2s ease-in-out;
+}
+.settings-list-item:last-child {
+    border-bottom: none;
+}
+.settings-list-item:hover {
+    background-color: rgba(245, 245, 245, 0.05);
+}
+.settings-list-item .icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 20px;
+    color: #E6E6FA; /* Light Lavender for icons */
+    flex-shrink: 0;
+}
+.settings-list-item span {
+    flex-grow: 1;
+    font-size: 17px;
+    font-weight: 500;
+}
+.settings-list-item .chevron {
+    width: 20px;
+    height: 20px;
+    color: #A0A3AF; /* Muted chevron */
+    flex-shrink: 0;
+}
+
+/* Helper class for Tailwind if needed, or for direct use */
+.hidden {
+    display: none !important;
+}
+
+/* Ensure all Tailwind utility classes are available */
+/* @tailwind base; */
+/* @tailwind components; */
+/* @tailwind utilities; */
+
+/* Ensure Google Font is loaded if not done per-page */
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700&display=swap');
+
+/* Add a container for UI.html to better display mockups */
+.ui-html-body-container {
+    background-color: #e5e7eb; /* Light gray background for the page holding mockups */
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.iframe-container-wrapper { /* Wrapper for each iframe and its title */
+    text-align: center;
+}
+
+.iframe-container-wrapper h2 {
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Original UI.html iframe styling - can be simplified if .mockup-frame is used consistently */
+.iframe-grid { /* From UI.html - kept for reference if needed for that page's structure */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+    justify-items: center;
+}
+.iframe-container { /* From UI.html */
+    width: 400px;
+    height: 850px;
+    background-color: #f6f6f6;
+    padding: 0;
+    border: 1px solid #ccc; /* Added a border to distinguish iframe containers */
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+/* iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+} */
